@@ -12,8 +12,13 @@ const pool = new Pool({
   password: "gR3@tPaS$w0Rd",
 });
 
+// WIP
+// const exists = (username, email) => {
+//   pool
+//     .query("Select ")
+// }
+
 const getUsers = (request, response) => {
-  console.info(request.body);
   pool
     .query("SELECT * FROM users;")
     .then((result) => response.send(result.rows))
@@ -23,7 +28,6 @@ const getUsers = (request, response) => {
 const createUser = (request, response) => {
   const { username, email, password } = request.body;
   if (!username || !email || !password) {
-    console.info(username, email, password);
     response
       .status(400)
       .send("You're missing a required field. Please try again.");
