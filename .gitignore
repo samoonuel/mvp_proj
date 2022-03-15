@@ -1,0 +1,8 @@
+## Ignore SQL Tools
+.vscode/
+migration.sql
+seed.sql
+
+
+## Ignore node modules
+node_modules/

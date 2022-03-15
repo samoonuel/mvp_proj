@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon public/expressServer.js"
+  },
+  "dependencies": {
+    "express": "^4.17.3",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
