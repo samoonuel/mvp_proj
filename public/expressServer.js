@@ -9,14 +9,23 @@ app.use(express.urlencoded({ extended: true }));
 const pool = new Pool({
   database: "mvp_db",
   user: "samoonuel",
-  password: "gR3@tPaS$w0Rd",
+  password: "",
 });
 
-// WIP
-// const exists = (username, email) => {
-//   pool
-//     .query("Select ")
-// }
+const get = (path, callback) => app.get(path, callback);
+const post = (path, callback) => app.post(path, callback);
+
+// WIP;
+const existingUser = (user, username) => {
+  if (!user) return;
+  pool.query(
+    "SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)",
+    [user],
+    () => {
+      //   if()
+    }
+  );
+};
 
 const getUsers = (request, response) => {
   pool
@@ -27,17 +36,17 @@ const getUsers = (request, response) => {
 
 const createUser = (request, response) => {
   const { username, email, password } = request.body;
+  const query =
+    "INSERT INTO users (username, email, password) VALUES ($1, $2, crypt($3, gen_salt('bf')));";
+  const values = [username, email, password];
   if (!username || !email || !password) {
     response
       .status(400)
       .send("You're missing a required field. Please try again.");
   } else {
     pool
-      .query(
-        "INSERT INTO users (username, email, password) VALUES ($1, $2, crypt($3, gen_salt('bf')));",
-        [username, email, password]
-      )
-      .then((body) => {
+      .query(query, values)
+      .then((result) => {
         response.status(200).send("Account created successfully.");
       })
       .catch((error) => {
@@ -46,7 +55,9 @@ const createUser = (request, response) => {
   }
 };
 
-app.get("/users", getUsers);
-app.post("/users", createUser);
+get("/users", getUsers);
+post("/users", createUser);
+
+export { get, post };
 
 app.listen(PORT, () => console.info(`Server running on port: ${PORT}`));
