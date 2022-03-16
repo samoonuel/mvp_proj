@@ -11,6 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const get = (path, callback) => app.get(path, callback);
