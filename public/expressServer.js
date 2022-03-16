@@ -1,17 +1,16 @@
 import express from "express";
 import pg from "pg";
+import "dotenv/config";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 const { Pool } = pg;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
-  database: "mvp_db",
-  user: "samoonuel",
-  password: "",
+  connectionString: process.env.DATABASE_URL,
 });
 
 const get = (path, callback) => app.get(path, callback);
@@ -75,7 +74,9 @@ const deleteUser = (request, response) => {
     .query("DELETE FROM users WHERE user_id = $1", [index])
     .then((result) => {
       if (result.rowCount === 0)
-        response.send("User has already been deleted or does not exist");
+        response
+          .status(400)
+          .send("User has already been deleted or does not exist");
       else response.status(200).send("User deleted.");
     })
     .catch((error) => response.status(500).send(error.message));
