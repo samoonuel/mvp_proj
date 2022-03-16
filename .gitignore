@@ -6,3 +6,6 @@ seed.sql
 
 ## Ignore node modules
 node_modules/
+
+## Ignore ENV 
+.env
