@@ -1,0 +1,32 @@
+/* Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+form > label {
+    margin: 2px;
+}
+
+form > input {
+    margin: 2px;
+}
+
+form > button {
+    margin: 2px;
+}
