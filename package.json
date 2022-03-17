@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "nodemon public/expressServer.js"
+    "start": "node public/expressServer.js"
   },
   "dependencies": {
     "dotenv": "^16.0.0",
