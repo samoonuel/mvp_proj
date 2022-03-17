@@ -3,7 +3,6 @@ const submitButton = $("#search");
 const username = $(".username");
 const email = $(".email");
 const password = $(".password");
-// const PORT = process.env.PORT;
 
 //Values
 const usernameInput = username.value;
