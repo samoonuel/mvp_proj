@@ -1,6 +1,7 @@
 import express from "express";
 import pg from "pg";
 import "dotenv/config";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -8,6 +9,9 @@ const { Pool } = pg;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: "http://127.0.0.1:5500"
+}))
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
