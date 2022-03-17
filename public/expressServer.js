@@ -24,10 +24,6 @@ const pool = new Pool({
   },
 });
 
-const get = (path, callback) => app.get(path, callback);
-const post = (path, callback) => app.post(path, callback);
-const remove = (path, callback) => app.delete(path, callback);
-
 const getUsers = (request, response) => {
   const { index } = request.params;
   if (index) {
@@ -93,8 +89,8 @@ const deleteUser = (request, response) => {
     .catch((error) => response.status(500).send(error.message));
 };
 
-get("/users(/:index?)", getUsers);
-post("/users(/?)", createUser);
-remove("/users/:index", deleteUser);
+app.get("/users(/:index?)", getUsers);
+app.post("/users(/?)", createUser);
+app.delete("/users/:index", deleteUser);
 
 app.listen(PORT, () => console.info(`Server running on port: ${PORT}`));
