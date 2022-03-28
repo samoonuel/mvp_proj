@@ -1,32 +1,40 @@
 /* Reset */
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    height: 100vh;
-    margin: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 form {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 10%;
+  padding: 12px;
 }
 
 form > label {
-    margin: 2px;
+  margin: 2px;
 }
 
 form > input {
-    margin: 2px;
+  margin: 2px;
 }
 
 form > button {
-    margin: 2px;
+  margin: 2px;
 }
