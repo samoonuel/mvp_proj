@@ -16,6 +16,11 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.hide {
+  transform: scale(0);
 }
 
 form {

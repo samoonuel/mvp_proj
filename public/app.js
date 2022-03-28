@@ -12,19 +12,16 @@ $(submitButton).on("click", () => {
     password: password.val(),
   };
 
-  console.log(username.val());
-
-  const settings = {
+  fetch(`http://localhost:3000/users/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify(data),
-  };
-
-  console.log(settings.body);
-
-  fetch(`http://localhost:3000/users/`, settings)
-    .then((response) => console.log(response))
+  })
+    .then((response) => {
+      console.log(response)
+      $(".login-container").addClass("hide");
+    })
     .catch((error) => console.log(error.message));
 });
