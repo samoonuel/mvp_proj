@@ -22,6 +22,7 @@ $(submitButton).on("click", () => {
     .then((response) => {
       console.log(response)
       $(".login-container").addClass("hide");
+      $(".main-container").removeClass("hide");
     })
     .catch((error) => console.log(error.message));
 });
