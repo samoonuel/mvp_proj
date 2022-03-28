@@ -43,3 +43,11 @@ form > input {
 form > button {
   margin: 2px;
 }
+
+.main-container {
+  background-color: aqua;
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
