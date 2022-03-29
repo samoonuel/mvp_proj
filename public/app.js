@@ -1,11 +1,12 @@
 //References
-const submitButton = $("#search");
-const username = $(".username");
-const email = $(".email");
-const password = $(".password");
+const createButton = $(".create");
+const loginButton = $(".login");
+const username = $(".username-input");
+const email = $(".email-input");
+const password = $(".password-input");
 
 //Create User
-$(submitButton).on("click", () => {
+const createUser = () => {
   const data = {
     username: username.val(),
     email: email.val(),
@@ -20,10 +21,43 @@ $(submitButton).on("click", () => {
     body: JSON.stringify(data),
   })
     .then((response) => {
-      console.log(response)
-      $(".user-create-container").addClass("hide");
-      $(".main-container").removeClass("hide");
-      $(".main-container").find("*").removeClass("hide");
+      if (response.status === 400) {
+        alert("You're missing a required field. Please try again.")
+        return;
+      } else {
+        $(".user-create-container").addClass("hide");
+        $(".main-container").removeClass("hide");
+      }
     })
     .catch((error) => console.log(error.message));
+}
+
+$(createButton).on("click", () => {
+  createUser();
 });
+
+const login = () => {
+  const data = {
+    username: username.val(),
+    password: password.val(),
+  }
+
+  fetch('http://localhost:3000/users/', {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  }).then((response) => {
+    console.log(response);
+  })
+}
+
+$(loginButton).on("click", () => {
+  // var txt2 = $("<p></p>").text("Text.");
+  const loginButton = $("<button></button>").text("Login")
+  console.log(loginButton, $("#user-creator"))
+  $(email).remove();
+  $(".email-label").remove();
+  $(createButton).remove();
+  $("#user-creater").append(loginButton);
+})

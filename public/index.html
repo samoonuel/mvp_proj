@@ -7,33 +7,34 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script defer src="app.js"></script>
-    <title>Document</title>
+    <title>Moon MVP Project</title>
   </head>
   <body>
     <div class="user-create-container">
       <form id="user-creator">
-        <label for="username"> Username: </label> <br />
-        <input class="username" type="text" /> <br />
-        <label for="email"> Email: </label> <br />
-        <input class="email" type="text" /> <br />
-        <label for="password"> Password: </label> <br />
-        <input class="password" type="text" /> <br />
-        <button id="search" type="button">Submit</button>
+        <label class="username-label"> Username: </label> <br />
+        <input class="username-input" type="text" /> <br />
+        <label class="email-label"> Email: </label> <br />
+        <input class="email-input" type="text" /> <br />
+        <label class="password-label"> Password: </label> <br />
+        <input class="password-input" type="text" /> <br />
+        <button class="create" type="button">Submit</button>
       </form>
+      <button class="login">Already signed up?</button>
     </div>
     <div class="main-container overlay hide">
-      <div class="header hide">
+      <div class="header">
         <img src="https://purepng.com/public/uploads/large/purepng.com-moonmoonskyrealisticnightblack-and-white-591521584248xjtz1.png" alt="img">
-        <div class="nav hide">Nav Section</div>
+        <div class="nav">Nav Section</div>
       </div>
-      <div class="content-container hide">Posts</div>
-      <div class="profile-container hide">
+      <div class="content-container">Posts</div>
+      <div class="profile-container">
         Profile Section
-        <img class="profile-picture hide">
+        <img class="profile-picture">
        <!-- src="https://www.hrzone.com/sites/all/themes/pp/img/default-user.png" -->
         IMG
       </img>
-        <em class="profile-username hide">Username</em>
+        <em class="profile-username">Username</em>
       </div>
     </div>
   </body>

@@ -44,6 +44,12 @@ form > button {
   margin: 2px;
 }
 
+.login {
+  margin: 5px;
+  width: 75%;
+  align-self: center;
+}
+
 .main-container {
   transition: transform 0.2s;
   display: flex;
