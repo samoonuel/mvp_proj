@@ -13,8 +13,6 @@ app.use(express.static("public"));
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
   })
 );
 
@@ -25,9 +23,19 @@ const pool = new Pool({
   },
 });
 
+const login = (request, response) => {
+  console.log(request.body);
+  const { username, password } = request.body;
+  const query = "SELECT * FROM users WHERE username = $1 AND password = $2;";
+  pool
+    .query(query, [ username, password ])
+    .then(result => response.json(result.rows[0]))
+    .catch(error => response.status(500).send(error.message));
+}
+
 const getUsers = (request, response) => {
   const { username, password } = request.body;
-  const query = "SELECT (password = crypt($1, password)) AS pswmatch FROM users WHERE username = $2;";
+  const query = "SELECT * FROM users "
   if (username && password) {
     pool
       .query(query, [password, username])
@@ -36,7 +44,7 @@ const getUsers = (request, response) => {
         if (pswmatch !== true || pswmatch === undefined) {
           response.status(400).send("Username or password is incorrect")
         } else {
-          response.send(result.rows);
+          response.send(result);
         }
       })
       .catch((error) => response.status(500).send(error.message));
@@ -46,7 +54,7 @@ const getUsers = (request, response) => {
 const createUser = (request, response) => {
   const { username, email, password } = request.body;
   const query =
-    "INSERT INTO users (username, email, password) VALUES ($1, $2, crypt($3, gen_salt('bf')));";
+    "INSERT INTO users (username, email, password) VALUES ($1, $2, $3);";
   const values = [username, email, password];
 
   if (!username || !email || !password) {
@@ -89,7 +97,8 @@ const deleteUser = (request, response) => {
     .catch((error) => response.status(500).send(error.message));
 };
 
-app.get("/users(/:index?)", getUsers);
+app.get("/users(/?)", getUsers);
+app.post("/login(/?)", login);
 app.post("/users(/?)", createUser);
 app.delete("/users/:index", deleteUser);
 

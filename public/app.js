@@ -1,6 +1,6 @@
 //References
 const createButton = $(".create");
-const loginButton = $(".login");
+const existingUser = $(".login");
 const username = $(".username-input");
 const email = $(".email-input");
 const password = $(".password-input");
@@ -32,32 +32,35 @@ const createUser = () => {
     .catch((error) => console.log(error.message));
 }
 
-$(createButton).on("click", () => {
-  createUser();
-});
+$(createButton).on("click", createUser);
 
-const login = () => {
-  const data = {
-    username: username.val(),
-    password: password.val(),
-  }
-
-  fetch('http://localhost:3000/users/', {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-  }).then((response) => {
-    console.log(response);
-  })
-}
-
-$(loginButton).on("click", () => {
-  // var txt2 = $("<p></p>").text("Text.");
-  const loginButton = $("<button></button>").text("Login")
-  console.log(loginButton, $("#user-creator"))
+const removeEmail = () => {
   $(email).remove();
   $(".email-label").remove();
   $(createButton).remove();
-  $("#user-creater").append(loginButton);
+}
+
+const loginButton = $('<button class="login-button" type="button">Log In</button>');
+const form = $('#user-creator');
+
+$(existingUser).on("click", () => {
+  // var txt2 = $("<p></p>").text("Text.");
+  removeEmail();
+  form.append(loginButton);
 })
+
+const login = () => {
+  console.log("login here!", username.val(), password.val());
+  const loginData = { username: username.val(), password: password.val() }
+  fetch('http://localhost:3000/login/', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify(loginData),
+  })
+  .then(response => response.json())
+  .then(user => console.log(user));
+}
+
+$(loginButton).on("click", login);
