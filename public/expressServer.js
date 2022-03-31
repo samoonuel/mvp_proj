@@ -23,6 +23,13 @@ const pool = new Pool({
   },
 });
 
+const getPosts = (request, response) => {
+  pool
+    .query("SELECT * FROM posts;")
+    .then(result => response.json(result.rows))
+    .catch(error => response.status(500).send(error.message));
+}
+
 const createPost = (request, response) => {
   const { postContent, user_id } = request.body;
   const query = "INSERT INTO posts (user_id, post_content) VALUES ($1, $2)";
@@ -38,6 +45,14 @@ const login = (request, response) => {
   pool
     .query(query, [username, password])
     .then(result => response.json(result.rows[0]))
+    .catch(error => response.status(500).send(error.message));
+}
+
+const getUsername = (request, response) => {
+  const { user_id } = request.body;
+  pool
+    .query("SELECT * FROM users WHERE user_id = $1;", [user_id])
+    .then(result => response.json(result))
     .catch(error => response.status(500).send(error.message));
 }
 
@@ -96,6 +111,8 @@ const deleteUser = (request, response) => {
     .catch((error) => response.status(500).send(error.message));
 };
 
+app.get("/posts(/?)", getPosts);
+app.post("/username(/?)", getUsername);
 app.post("/user(/?)", getUser);
 app.post("/login(/?)", login);
 app.post("/users(/?)", createUser);

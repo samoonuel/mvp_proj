@@ -5,6 +5,8 @@ const username = $(".username-input");
 const email = $(".email-input");
 const password = $(".password-input");
 
+//User Functionality
+
 //Create User
 const createUser = () => {
   const data = {
@@ -39,7 +41,6 @@ const removeEmail = () => {
   $(".email-label").remove();
   $(createButton).remove();
 }
-
 
 //User Login
 const loginButton = $('<button class="login-button" type="button">Log In</button>');
@@ -80,18 +81,44 @@ const login = () => {
 
 loginButton.on("click", login);
 
-/* This is the main page functionality going forward
- *  !!! Set up the ability to post and save it to the user_id
- *  !!! The posts need to be saved into the database w/ user_id
- *  ! If there are no posts for the available feed there should be a default prompt  
- *  ! Side profile needs to have username and default photo
- */
+//Post Functionality
 
 //References
 const profileUsername = $(".profile-username");
 const postContent = $(".post-content");
 const postButton = $(".create-post");
+const feed = $(".content-container");
 
+//Get posts for feed
+const getPosts = () => {
+  const url = "http://localhost:3000/user";
+  const userData = { username: username.val() }
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify(userData),
+  })
+    .then(response => response.json())
+    .then(user => {
+      const { user_id, username } = user;
+      return fetch("http://localhost:3000/posts/")
+        .then(response => response.json())
+        .then(posts => {
+          console.log("User ID: " + user_id);
+          console.log("Posts", posts);
+          console.log("Username: " + username);
+          for (post of posts) {
+            const existingPost = $(`<p class="post"><strong>${username}</strong> ${post.post_content}</p>`)
+            feed.append(existingPost);
+          }
+        })
+        .catch(error => console.error(error.message));
+    })
+}
+
+//Create a post
 const createPost = () => {
   const url = "http://localhost:3000/user"
   const userData = { username: username.val() }
@@ -114,15 +141,14 @@ const createPost = () => {
         },
         body: JSON.stringify(postData),
       })
-      .then(response => response.json())
-      .then(() => {
-        const post = $(`<p>${postContent.val()}</p>`)
-        const feed = $(".content-container");
-        feed.append(post);
-      }
-      )
+        .then(response => response.json())
+        .then(() => {
+          const post = $(`<p class="post"><strong>${user.username}</strong> ${postContent.val()}</p>`)
+          feed.append(post);
+        })
     })
     .catch(error => console.error(error.message))
 }
 
-postButton.on("click", createPost)
+postButton.on("click", createPost);
+loginButton.on("click", getPosts);
