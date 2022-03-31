@@ -23,32 +23,31 @@ const pool = new Pool({
   },
 });
 
+const createPost = (request, response) => {
+  const { postContent, user_id } = request.body;
+  const query = "INSERT INTO posts (user_id, post_content) VALUES ($1, $2)";
+  pool
+    .query(query, [user_id, postContent])
+    .then(result => response.json(result))
+    .catch(error => response.status(500).send(error.message));
+}
+
 const login = (request, response) => {
-  console.log(request.body);
   const { username, password } = request.body;
   const query = "SELECT * FROM users WHERE username = $1 AND password = $2;";
   pool
-    .query(query, [ username, password ])
+    .query(query, [username, password])
     .then(result => response.json(result.rows[0]))
     .catch(error => response.status(500).send(error.message));
 }
 
-const getUsers = (request, response) => {
-  const { username, password } = request.body;
-  const query = "SELECT * FROM users "
-  if (username && password) {
-    pool
-      .query(query, [password, username])
-      .then((result) => {
-        const pswmatch = result.rows[0].pswmatch;
-        if (pswmatch !== true || pswmatch === undefined) {
-          response.status(400).send("Username or password is incorrect")
-        } else {
-          response.send(result);
-        }
-      })
-      .catch((error) => response.status(500).send(error.message));
-  }
+const getUser = (request, response) => {
+  const { username } = request.body;
+  const query = "SELECT * FROM users WHERE username = $1;"
+  pool
+    .query(query, [username])
+    .then(result => response.json(result.rows[0]))
+    .catch(error => response.status(500).send(error.message));
 };
 
 const createUser = (request, response) => {
@@ -97,9 +96,10 @@ const deleteUser = (request, response) => {
     .catch((error) => response.status(500).send(error.message));
 };
 
-app.get("/users(/?)", getUsers);
+app.post("/user(/?)", getUser);
 app.post("/login(/?)", login);
 app.post("/users(/?)", createUser);
+app.post("/posts(/?)", createPost);
 app.delete("/users/:index", deleteUser);
 
 app.listen(PORT, () => console.info(`Server running on port: ${PORT}`));
