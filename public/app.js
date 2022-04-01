@@ -91,36 +91,34 @@ const feed = $(".content-container");
 
 //Get posts for feed
 const getPosts = () => {
-  const url = "http://localhost:3000/user";
+  const url = "http://localhost:3000/users/";
   const userData = { username: username.val() }
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify(userData),
-  })
+  fetch(url)
     .then(response => response.json())
-    .then(user => {
-      const { user_id, username } = user;
+    .then(result => {
+      for (user of result) {
+        return { user_id, username }
+      }
       return fetch("http://localhost:3000/posts/")
         .then(response => response.json())
         .then(posts => {
-          console.log("User ID: " + user_id);
-          console.log("Posts", posts);
-          console.log("Username: " + username);
           for (post of posts) {
-            const existingPost = $(`<p class="post"><strong>${username}</strong> ${post.post_content}</p>`)
-            feed.append(existingPost);
+            console.log("user user_id:", user_id, "\npost user_id", post.user_id);
+            // if(user_id === post.user_id) {
+            //   console.log(username, post.post_content);
+            // }
+            // const existingPost = $(`<p class="post"><strong>${username}</strong> ${post.post_content}</p>`)
+            // feed.append(existingPost);
           }
         })
         .catch(error => console.error(error.message));
     })
+    .catch(error => console.error(error.message));
 }
 
 //Create a post
 const createPost = () => {
-  const url = "http://localhost:3000/user"
+  const url = "http://localhost:3000/user/"
   const userData = { username: username.val() }
   fetch(url, {
     method: "POST",
@@ -134,7 +132,7 @@ const createPost = () => {
       const userID = user.user_id;
       console.log(userID);
       const postData = { postContent: postContent.val(), user_id: userID }
-      return fetch("http://localhost:3000/posts", {
+      return fetch("http://localhost:3000/posts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
