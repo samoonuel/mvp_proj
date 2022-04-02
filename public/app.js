@@ -15,7 +15,7 @@ const createUser = () => {
     password: password.val(),
   };
 
-  fetch(`http://localhost:3000/users/`, {
+  fetch(`/users/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
@@ -54,7 +54,7 @@ existingUser.on("click", () => {
 
 const login = () => {
   const loginData = { username: username.val(), password: password.val() }
-  fetch('http://localhost:3000/login/', {
+  fetch('/login/', {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
@@ -91,7 +91,7 @@ const feed = $(".content-container");
 
 //Get posts for feed
 const getPosts = () => {
-  const url = "http://localhost:3000/users/";
+  const url = "/users/";
   const userData = { username: username.val() }
   fetch(url)
     .then(response => response.json())
@@ -99,7 +99,7 @@ const getPosts = () => {
       for (user of result) {
             
       }
-      // return fetch("http://localhost:3000/posts/")
+      // return fetch("/posts/")
       //   .then(response => response.json())
       //   .then(posts => {
       //     for (post of posts) {
@@ -118,7 +118,7 @@ const getPosts = () => {
 
 //Create a post
 const createPost = () => {
-  const url = "http://localhost:3000/user/"
+  const url = "/user/"
   const userData = { username: username.val() }
   fetch(url, {
     method: "POST",
@@ -132,7 +132,7 @@ const createPost = () => {
       const userID = user.user_id;
       console.log(userID);
       const postData = { postContent: postContent.val(), user_id: userID }
-      return fetch("http://localhost:3000/posts/", {
+      return fetch("/posts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
