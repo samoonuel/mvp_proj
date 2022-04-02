@@ -97,21 +97,21 @@ const getPosts = () => {
     .then(response => response.json())
     .then(result => {
       for (user of result) {
-        return { user_id, username }
+            
       }
-      return fetch("http://localhost:3000/posts/")
-        .then(response => response.json())
-        .then(posts => {
-          for (post of posts) {
-            console.log("user user_id:", user_id, "\npost user_id", post.user_id);
-            // if(user_id === post.user_id) {
-            //   console.log(username, post.post_content);
-            // }
-            // const existingPost = $(`<p class="post"><strong>${username}</strong> ${post.post_content}</p>`)
-            // feed.append(existingPost);
-          }
-        })
-        .catch(error => console.error(error.message));
+      // return fetch("http://localhost:3000/posts/")
+      //   .then(response => response.json())
+      //   .then(posts => {
+      //     for (post of posts) {
+      //       console.log("user user_id:", user_id, "\npost user_id", post.user_id);
+      //       // if(user_id === post.user_id) {
+      //       //   console.log(username, post.post_content);
+      //       // }
+      //       // const existingPost = $(`<p class="post"><strong>${username}</strong> ${post.post_content}</p>`)
+      //       // feed.append(existingPost);
+      //     }
+      //   })
+      //   .catch(error => console.error(error.message));
     })
     .catch(error => console.error(error.message));
 }
